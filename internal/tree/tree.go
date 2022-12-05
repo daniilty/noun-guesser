@@ -11,47 +11,6 @@ type Word struct {
 	children map[int][]*wordNode
 }
 
-type ShitWord struct {
-	Children map[int][]*shitWordNode `json:"children"`
-}
-
-func NewShitWord(w *Word) *ShitWord {
-	res := &ShitWord{}
-
-	res.Children = make(map[int][]*shitWordNode, len(w.children))
-	for k, v := range w.children {
-		res.Children[k] = make([]*shitWordNode, 0, len(v))
-		for _, c := range v {
-			res.Children[k] = append(res.Children[k], newShitWordNode(c))
-		}
-	}
-
-	return res
-}
-
-func newShitWordNode(w *wordNode) *shitWordNode {
-	if len(w.children) == 0 {
-		return &shitWordNode{
-			Val: string(w.val),
-		}
-	}
-
-	res := &shitWordNode{}
-	res.Val = string(w.val)
-	res.Children = make([]*shitWordNode, 0, len(w.children))
-
-	for _, c := range w.children {
-		res.Children = append(res.Children, newShitWordNode(c))
-	}
-
-	return res
-}
-
-type shitWordNode struct {
-	Val      string          `json:"val"`
-	Children []*shitWordNode `json:"children"`
-}
-
 type wordNode struct {
 	val      rune
 	children []*wordNode
