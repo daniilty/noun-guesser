@@ -31,20 +31,6 @@ func stripFirstRune(s string) (rune, string) {
 	return firstRune, s[i:]
 }
 
-func countRunes(s string) int {
-	var n int
-
-	for _, r := range s {
-		if r == notInPlace {
-			continue
-		}
-
-		n++
-	}
-
-	return n
-}
-
 func wordIsCyrillic(word string) bool {
 	for _, r := range word {
 		if !unicode.Is(unicode.Cyrillic, r) {

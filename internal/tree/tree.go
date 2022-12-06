@@ -1,10 +1,13 @@
 package tree
 
-import "strings"
+import (
+	"noun-guesser/internal/runes"
+	"strings"
+)
 
 const (
 	any        = '*'
-	notInPlace = '!'
+	NotInPlace = '!'
 )
 
 type Word struct {
@@ -32,7 +35,7 @@ func (w *Word) Insert(word string) {
 		return
 	}
 
-	n := countRunes(word)
+	n := runes.Count(word, []rune{NotInPlace})
 
 	cc, ok := w.children[n]
 	if !ok {
@@ -64,7 +67,7 @@ func (w *Word) Insert(word string) {
 }
 
 func (w *Word) Find(word string, ignored []rune, guessed []rune) []string {
-	n := countRunes(word)
+	n := runes.Count(word, []rune{NotInPlace})
 
 	cc, ok := w.children[n]
 	if !ok {
@@ -107,7 +110,7 @@ func (w *wordNode) insert(word string) {
 		return
 	}
 
-	n := countRunes(word)
+	n := runes.Count(word, []rune{NotInPlace})
 	r, stripped := stripFirstRune(word)
 
 	for i, c := range w.children {
@@ -139,7 +142,7 @@ func (w *wordNode) find(word string, n int, ignored map[rune]struct{}, letterInP
 	}
 
 	r, stripped := stripFirstRune(word)
-	if r == notInPlace {
+	if r == NotInPlace {
 		return w.find(stripped, n, ignored, false)
 	}
 
@@ -151,7 +154,7 @@ func (w *wordNode) find(word string, n int, ignored map[rune]struct{}, letterInP
 		r = any
 	}
 
-	if r != w.val && r != any && r != notInPlace {
+	if r != w.val && r != any && r != NotInPlace {
 		return []string{}
 	}
 
@@ -162,7 +165,7 @@ func (w *wordNode) find(word string, n int, ignored map[rune]struct{}, letterInP
 	}
 
 	for _, c := range w.children {
-		found := c.find(stripped, n-1, ignored, r != notInPlace)
+		found := c.find(stripped, n-1, ignored, r != NotInPlace)
 
 		for _, f := range found {
 			results = append(results, string(w.val)+f)
