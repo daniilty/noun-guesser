@@ -14,8 +14,9 @@ import (
 
 func run() error {
 	addr := os.Getenv("HTTP_ADDR")
+	source := os.Getenv("SOURCE")
 
-	f, err := os.Open("source.txt")
+	f, err := os.Open(source)
 	if err != nil {
 		return err
 	}

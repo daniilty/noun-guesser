@@ -18,6 +18,7 @@ WORKDIR /app
 USER nobody
 
 COPY --from=builder /app/server /app/server
+COPY source.txt source.txt
 
 EXPOSE 8080
 
